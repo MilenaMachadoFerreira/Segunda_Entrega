@@ -22,14 +22,15 @@ glm::mat4 PROJECTION(1.0f);
 glm::mat4 MODEL(1.0f);
 
 // Read triangle mesh from Wavefront OBJ file format
-bool readTriangleMesh(
+//Ler malha triangular do formato de arquivo Wavefront OBJ
+bool readTriangleMesh(// Para formar um triangulo sempre passamos
         const std::string & filename,
-        std::vector<glm::vec3> & positions,
-        std::vector<glm::vec3> & normals,
-        std::vector<glm::vec2> & textureCoordinates,
-        std::vector<size_t> & positionIndices,
-        std::vector<size_t> & normalIndices,
-        std::vector<size_t> & textureCoordinateIndices) {
+        std::vector<glm::vec3> & positions,//posicao
+        std::vector<glm::vec3> & normals,//normal
+        std::vector<glm::vec2> & textureCoordinates,//cordenadas de textura
+        std::vector<size_t> & positionIndices,// posicao dos indices
+        std::vector<size_t> & normalIndices,//normal dos indices
+        std::vector<size_t> & textureCoordinateIndices) {//cordenadas de textura dos indices
     std::ifstream file(filename, std::ifstream::in);
 
     if (!file.is_open())
@@ -220,14 +221,17 @@ size_t loadTriangleMesh(
     
     
     // Create and bind vertex array object
+    // Criar e ligar objeto de matriz de vértices		
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     
     // Create and bind vertex buffer object
+    //Criar e ligar objeto de buffer de vértices
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     
     // Copy vertex attribute data to vertex buffer object
+    //Copiar dados do atributo de vértice para o objeto buffer de vértice
     glBufferData(
         GL_ARRAY_BUFFER,
         vertices.size() * sizeof(Vertex),
@@ -236,15 +240,24 @@ size_t loadTriangleMesh(
     
     // Define position attribute to shader program
     glVertexAttribPointer(
-        0,
-        3,
-        GL_FLOAT,
-        false,
-        8 * sizeof(GLfloat),
-        (const GLvoid *)nullptr);
+        0,                        //índice (id)
+        3,                        //quantidade de floats
+        GL_FLOAT,                 //tipo da variavel
+        false,                    //normalizar
+        8 * sizeof(GLfloat),      //quando começa a repetir
+        (const GLvoid *)nullptr); //shader
     
     // Enable position attribute to shader program
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0);  //para disponibilizar no shader
+	
+	
+	
+	//PROVA
+	//Escrever obj, crregsr , escrever no shader, fazer uma transformscao no callbak
+	//expossure
+    
+    
+    
     
     // Define color attribute to shader program
     glVertexAttribPointer(
@@ -253,7 +266,7 @@ size_t loadTriangleMesh(
         GL_FLOAT,
         false,
         8 * sizeof(GLfloat),
-        (const GLvoid *)(3 * sizeof(GLfloat)));
+        (const GLvoid *)(3 * sizeof(GLfloat)));   //
     
     // Enable color attribute to shader program
     glEnableVertexAttribArray(1);
